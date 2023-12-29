@@ -1,4 +1,4 @@
-module github.com/aws/aws-sigv4-auth-cassandra-gocql-driver-plugin
+module github.com/rohangupta/aws-sigv4-auth-cassandra-gocql-driver-plugin
 
 go 1.14
 

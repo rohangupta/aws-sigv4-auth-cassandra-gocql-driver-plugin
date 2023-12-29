@@ -22,8 +22,8 @@ import (
 	"time"
 
 	"github.com/aws/aws-sdk-go/aws/session"
-	"github.com/aws/aws-sigv4-auth-cassandra-gocql-driver-plugin/sigv4/internal"
 	"github.com/gocql/gocql"
+	"github.com/rohangupta/aws-sigv4-auth-cassandra-gocql-driver-plugin/sigv4/internal"
 )
 
 // Authenticator for AWS Integration
