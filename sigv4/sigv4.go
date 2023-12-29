@@ -21,6 +21,7 @@ import (
 	"os"
 	"time"
 
+	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sigv4-auth-cassandra-gocql-driver-plugin/sigv4/internal"
 	"github.com/gocql/gocql"
 )
@@ -48,11 +49,16 @@ func getRegionEnvironment() string {
 
 // initializes authenticator with standard AWS CLI environment variables if they exist.
 func NewAwsAuthenticator() AwsAuthenticator {
+	sess := session.Must(session.NewSession())
+
+	region := sess.Config.Region
+	creds, _ := sess.Config.Credentials.Get()
+
 	return AwsAuthenticator{
-		Region:          getRegionEnvironment(),
-		AccessKeyId:     os.Getenv("AWS_ACCESS_KEY_ID"),
-		SecretAccessKey: os.Getenv("AWS_SECRET_ACCESS_KEY"),
-		SessionToken:    os.Getenv("AWS_SESSION_TOKEN")}
+		Region:          *region,
+		AccessKeyId:     creds.AccessKeyID,
+		SecretAccessKey: creds.SecretAccessKey,
+		SessionToken:    creds.SessionToken}
 }
 
 func (p AwsAuthenticator) Challenge(req []byte) ([]byte, gocql.Authenticator, error) {
